@@ -5,6 +5,6 @@ os.environ['SSL_CERT_FILE'] = '/etc/ssl/cert.pem' #security credential for pytho
 
 model = whisper.load_model("base")
 
-result = model.transcribe("data/harvard.wav", language="en")
+result = model.transcribe("Eye Mechanism/data/harvard.wav", language="en")
 
 print("Transcription:", result["text"])
