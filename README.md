@@ -12,4 +12,16 @@ Our interpretation for Godspeed is the speed of God as we break through the cons
 2. Get the program to take input from microphone.
 
 
+audio file:
+
+    thread python -> function that runs in the background 
+    one task to record the microphone
+    another task to transcribe the audio into text
+
+
+source .venv/bin/activate
+
+
 Virtual environment: https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/
+Python real time audio transcription: https://github.com/davabase/whisper_real_time/blob/master/transcribe_demo.py
+https://www.youtube.com/watch?app=desktop&v=2kSPbH4jWME&t=0s
