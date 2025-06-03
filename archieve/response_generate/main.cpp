@@ -1,3 +1,5 @@
+// TODO: the program didn't terminate when pressing Ctrl+C
+
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <iostream>
@@ -153,6 +155,8 @@ int main() {
     if (api_key.empty()) return 1;
 
     chat_loop(api_key);
+
+    std::cout << std::flush;
 
     return 0;
 }
