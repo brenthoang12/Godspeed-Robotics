@@ -3,5 +3,7 @@
 .env
 *.mp3
 *.wav
+
+eye_mechanism/whisper.cpp/*
 eye_mechanism/models/*
 eye_mechanism/samples/*
