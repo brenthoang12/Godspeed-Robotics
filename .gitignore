@@ -1,6 +1,7 @@
 .venv
 .vscode
 .env
-*.mp3
-*.wav
+.DS_Store
 
+build/
+eye_mechanism/models/*
