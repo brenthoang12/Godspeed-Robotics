@@ -1,14 +1,16 @@
 // TODO: add context 
+// TODO: fix t_now and t_last
 // TODO: clear and reset context after a long pause, or at user request 
 // TODO: add open ai intergration 
 
 
-
+#include "response_generator.h"
 #include "common-sdl.h"
 #include "common.h"
 #include "common-whisper.h"
 #include "whisper.h"
 
+#include <nlohmann/json.hpp>
 #include <chrono>
 #include <cstdio>
 #include <fstream>
@@ -17,6 +19,7 @@
 #include <vector>
 
 using namespace std;
+using json = nlohmann::json;
 
 // command-line parameters
 struct whisper_params {
@@ -48,6 +51,12 @@ struct whisper_params {
 };
 
 int main(int argc, char ** argv) {
+
+    std::string api_key = load_api_key();
+    json messages = json::array({
+        {{"role", "system"}, {"content", "You are a helpful assistant."}}
+    });
+
     whisper_params params;
 
     const int n_samples_step = (1e-3 * params.step_ms) * WHISPER_SAMPLE_RATE;
@@ -161,16 +170,16 @@ int main(int argc, char ** argv) {
 
         // add ChatGPT response here * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
         
+        if (!full_text.empty()) {
+            std::string json_response = send_prompt(api_key, messages);
+            print_response(json_response, messages);
+        }
+            
             // stage 1: no context
-                // a function take in messeage n sent to open ai server (take in cstring) -> call open ai api key function 
+                // a function take in messeage n sent to open ai server  -> call open ai api key function 
                 // a function to print response (take in context string)
-                // a function to display amount of token used ()
-
-            // stage 2: with context
-                
+                // a function to display amount of token used ()        
         
-        std::this_thread::sleep_for(std::chrono::seconds(2));
-        printf("\nTheo: received transcription\n");
         // add ChatGPT response here * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
         
         // printf("\n### Transcription %d END\n", n_iter);
