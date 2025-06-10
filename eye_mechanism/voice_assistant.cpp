@@ -167,7 +167,7 @@ int main(int argc, char ** argv) {
         if (!full_text.empty()) {
             printf("\n[Waiting for OpenAI response...]\n");
             fflush(stdout);
-            messages.push_back({{"role", "user"}, {"content", full_text});
+            messages.push_back({{"role", "user"}, {"content", full_text}});
             std::string json_response = send_prompt(api_key, messages);
             print_response(json_response, messages);
         }

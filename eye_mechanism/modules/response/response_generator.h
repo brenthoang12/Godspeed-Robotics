@@ -11,4 +11,4 @@ std::string load_api_key();
 std::string send_prompt (const std::string& api_key, const nlohmann::json& messages);
 
 // Print respone and update context for message
-void print_response(const std::string& json_response, nlohmann::json& messages);
+void print_response(const std::string& json_response, nlohmann::json& messages, bool full_output = false);
