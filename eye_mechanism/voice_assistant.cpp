@@ -1,8 +1,4 @@
-// TODO: add context 
-// TODO: fix t_now and t_last
-// TODO: clear and reset context after a long pause, or at user request 
-// TODO: add open ai intergration 
-
+// TODO: memory management for json messages
 
 #include "response_generator.h"
 #include "common-sdl.h"
@@ -167,21 +163,15 @@ int main(int argc, char ** argv) {
             }
             prompt_tokens.insert(prompt_tokens.end(), tokens_temp.begin(), tokens_temp.begin() + n_prompt_tokens);
         }
-
-        // add ChatGPT response here * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
         
         if (!full_text.empty()) {
+            printf("\n[Waiting for OpenAI response...]\n");
+            fflush(stdout);
+            messages.push_back({{"role", "user"}, {"content", full_text});
             std::string json_response = send_prompt(api_key, messages);
             print_response(json_response, messages);
         }
-            
-            // stage 1: no context
-                // a function take in messeage n sent to open ai server  -> call open ai api key function 
-                // a function to print response (take in context string)
-                // a function to display amount of token used ()        
-        
-        // add ChatGPT response here * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
-        
+
         // printf("\n### Transcription %d END\n", n_iter);
         printf("\n");
 

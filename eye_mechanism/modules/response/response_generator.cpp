@@ -5,6 +5,7 @@
 #include <ctime>
 #include <iomanip>
 #include <vector>
+#include <filesystem> 
 
 using json = nlohmann::json;
 
@@ -64,17 +65,49 @@ std::string send_prompt (const std::string& api_key, const json& messages) {
     return response;
 }
 
-void print_response(const std::string& json_response, json& messages) {
+std::string get_dated_filename() {
+    std::time_t t = std::time(nullptr);
+    std::tm* now = std::localtime(&t);    
+
+    std::ostringstream oss;
+    oss << std::put_time(now, "%b-%d-%Y_%H-%M-%S") << "_response.json";
+    return oss.str();
+}
+
+void save_jsons(const json& parsed) {
+    std::string folder = "json_output";
+    std::filesystem::create_directories(folder);  // Ensure the folder exists
+    
+    std::string filename = folder + "/" + get_dated_filename();
+
+    std::ofstream out(filename);
+    if (out.is_open()) {
+        out << parsed.dump(2);
+        out.close();
+    } else {
+        std::cerr << "save_jsons(): failed to open file for writing: " << filename << "\n";
+    }
+    
+
+
+}
+
+
+void print_response(const std::string& json_response, json& messages, bool full_output = false) {
     if (!json_response.empty()) {
         try {
             json parsed = json::parse(json_response);
+
+            if(full_output) {
+                save_jsons(parsed);
+            }
 
             if (parsed.contains("choices") && !parsed["choices"].empty()) {
                 if (parsed["choices"][0]["message"].contains("content") &&
                     !parsed["choices"][0]["message"]["content"].is_null()) {
 
                     std::string content = parsed["choices"][0]["message"]["content"];
-                    messages.push_back({{"role", "assistant"}, {"content", content}});
+                    messages.push_back({{"role", "assistant"}, {"content", content}}); 
                     std::cout << "Assistant: " << content << std::endl;
                 } else {
                     std::cerr << "chat_loop(): assistant response is empty.\n";
