@@ -2,10 +2,11 @@
 #include <nlohmann/json.hpp>
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 
 using json = nlohmann::json;
 
-void tts_openai(const std::string& api_key, const std::string& text, const std::string& voice = "echo") {
+void tts_openai(const std::string& api_key, const std::string& text, const std::string& voice = "alloy") {
     CURL* curl = curl_easy_init();
     if (!curl) {
         std::cerr << "tts_openai(): unable to initialize curl";
@@ -14,9 +15,9 @@ void tts_openai(const std::string& api_key, const std::string& text, const std::
 
     // Prepare JSON payload
     json payload = {
-        {"model", "tts-1"}, // may change to o4-mini-tts
+        {"model", "gpt-4o-mini-tts"}, 
         {"input", text},
-        {"voice", voice} // "alloy", "echo", "fable", "onyx", "nova", "shimmer"
+        {"voice", voice} 
     };
     std::string payload_str = payload.dump();
     
@@ -46,21 +47,10 @@ void tts_openai(const std::string& api_key, const std::string& text, const std::
     curl_easy_cleanup(curl);
 
     if (res != CURLE_OK) {
-        std::cerr << "tts_openai(): CURL error: " << curl_easy_strerror(res) << std::endl;
+        std::cerr << "tts_openai(): CURL error " << curl_easy_strerror(res) << std::endl;
         return;
     }
 
-    // Play the MP3 file using afplay (macOS)
     std::string play_cmd = "afplay " + audio_filename;
     system(play_cmd.c_str());
-}
-
-
-
-int main() {
-    std::string example0 = "Here are your appointments for today: At 9 AM, a meeting with Dr. Lee. At 2 PM, a project review with your team. And at 5 PM, a call with Sarah.";
-    std::string example1 = "Sure, I can do that for you.";
-
-
-    return 0;
 }

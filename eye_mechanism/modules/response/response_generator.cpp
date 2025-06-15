@@ -92,7 +92,7 @@ void save_jsons(const json& parsed) {
 }
 
 
-void print_response(const std::string& json_response, json& messages, bool full_output = false) {
+std::string print_response(const std::string& json_response, json& messages, bool full_output = false) {
     if (!json_response.empty()) {
         try {
             json parsed = json::parse(json_response);
@@ -108,6 +108,7 @@ void print_response(const std::string& json_response, json& messages, bool full_
                     std::string content = parsed["choices"][0]["message"]["content"];
                     messages.push_back({{"role", "assistant"}, {"content", content}}); 
                     std::cout << "Assistant: " << content << std::endl;
+                    return content;
                 } else {
                     std::cerr << "chat_loop(): assistant response is empty.\n";
                 }    
@@ -124,6 +125,6 @@ void print_response(const std::string& json_response, json& messages, bool full_
     }
 }
 
-
-
-
+void modify_messages() {
+    
+}

@@ -8,10 +8,4 @@ Godspeed/God spede/“may God speed you”.  Originated from Middle English, the
 Our interpretation for Godspeed is the speed of God as we break through the constraint of human limitation to reach godlike ability.
 </em>
 
-## TODO
 
-
-
-
-
-- Virtual environment: https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/

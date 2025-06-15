@@ -1,6 +1,9 @@
-// TODO: memory management for json messages
+// TODO: configurate AI response to be more conversational
+// TODO: TTS implementatio
+// TODO: limit context message
 
 #include "response_generator.h"
+#include "speech.h"
 #include "common-sdl.h"
 #include "common.h"
 #include "common-whisper.h"
@@ -47,10 +50,10 @@ struct whisper_params {
 };
 
 int main(int argc, char ** argv) {
-
+    bool limit_messages = true;
     std::string api_key = load_api_key();
     json messages = json::array({
-        {{"role", "system"}, {"content", "You are a helpful assistant."}}
+        {{"role", "system"}, {"content", "You are a helpful voice assistant. Reply concisely, using short spoken sentences suitable for reading aloud."}}
     });
 
     whisper_params params;
@@ -169,7 +172,11 @@ int main(int argc, char ** argv) {
             fflush(stdout);
             messages.push_back({{"role", "user"}, {"content", full_text}});
             std::string json_response = send_prompt(api_key, messages);
-            print_response(json_response, messages);
+            std::string content = print_response(json_response, messages);
+            tts_openai(api_key, content);
+            if (limit_messages) {
+                
+            }
         }
 
         // printf("\n### Transcription %d END\n", n_iter);
@@ -186,8 +193,6 @@ int main(int argc, char ** argv) {
     printf("Bye bye.\n");
     return 0;
 }
-
-
 
 // cmake -B build 
 // cmake --build build 
