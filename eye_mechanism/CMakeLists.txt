@@ -13,4 +13,4 @@ add_subdirectory(modules/tts)
 set(TARGET voice_assistant)
 add_executable(${TARGET} voice_assistant.cpp)
 
-target_link_libraries(${TARGET} PRIVATE whisper common common-sdl response speech)
+target_link_libraries(${TARGET} PRIVATE whisper common common-sdl response tts)

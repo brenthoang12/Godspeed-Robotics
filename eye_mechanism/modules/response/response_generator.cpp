@@ -125,6 +125,29 @@ std::string print_response(const std::string& json_response, json& messages, boo
     }
 }
 
-void modify_messages() {
-    
+// EXPERIMENTAL
+void modify_messages(json& messages) {
+    if (!messages.is_array()) {
+        std::cerr << "modify_json(): messages is not an array\n";
+        return;
+    }
+
+    json modified = json::array();
+
+    // Always keep the first element (system prompt)
+
+    if (!messages.empty()) {
+        modified.push_back(messages[0]);
+    } else if (messages.empty()) {
+        std::cerr << "modify_json(): messages is empty\n";
+        return;
+    }
+
+    // Keep the last 10 entries from the conversation (excluding system prompt)
+    int start = std::max(1, static_cast<int>(messages.size()) - 10);
+    for (int i = start; i < messages.size(); ++i) {
+        modified.push_back(messages[i]);
+    }
+
+    messages = modified;      
 }

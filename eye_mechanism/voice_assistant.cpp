@@ -1,7 +1,3 @@
-// TODO: configurate AI response to be more conversational
-// TODO: TTS implementatio
-// TODO: limit context message
-
 #include "response_generator.h"
 #include "speech.h"
 #include "common-sdl.h"
@@ -44,13 +40,13 @@ struct whisper_params {
     bool use_gpu       = false;
     bool flash_attn    = false;
 
-    string language  = "en";
-    string model     = "./models/ggml-base.en.bin";
-    string fname_out;
+    std::string language  = "en";
+    std::string model     = "./models/ggml-base.en.bin";
+    std::string fname_out;
 };
 
 int main(int argc, char ** argv) {
-    bool limit_messages = true;
+    bool limit_messages = false;
     std::string api_key = load_api_key();
     json messages = json::array({
         {{"role", "system"}, {"content", "You are a helpful voice assistant. Reply concisely, using short spoken sentences suitable for reading aloud."}}
@@ -75,8 +71,8 @@ int main(int argc, char ** argv) {
     cparams.flash_attn = params.flash_attn;
     struct whisper_context * ctx = whisper_init_from_file_with_params(params.model.c_str(), cparams);
 
-    vector<float> pcmf32(n_samples_30s, 0.0f);
-    vector<float> pcmf32_new(n_samples_30s, 0.0f);
+    std::vector<float> pcmf32(n_samples_30s, 0.0f);
+    std::vector<float> pcmf32_new(n_samples_30s, 0.0f);
 
     std::vector<whisper_token> prompt_tokens;
 
@@ -166,7 +162,7 @@ int main(int argc, char ** argv) {
             }
             prompt_tokens.insert(prompt_tokens.end(), tokens_temp.begin(), tokens_temp.begin() + n_prompt_tokens);
         }
-        
+          
         if (!full_text.empty()) {
             printf("\n[Waiting for OpenAI response...]\n");
             fflush(stdout);
@@ -175,7 +171,7 @@ int main(int argc, char ** argv) {
             std::string content = print_response(json_response, messages);
             tts_openai(api_key, content);
             if (limit_messages) {
-                
+                modify_messages(messages);
             }
         }
 
@@ -193,7 +189,3 @@ int main(int argc, char ** argv) {
     printf("Bye bye.\n");
     return 0;
 }
-
-// cmake -B build 
-// cmake --build build 
-// ./build/voice_assistant

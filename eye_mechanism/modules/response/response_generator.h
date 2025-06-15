@@ -12,3 +12,7 @@ std::string send_prompt (const std::string& api_key, const nlohmann::json& messa
 
 // print response and update context for message
 std::string print_response(const std::string& json_response, nlohmann::json& messages, bool full_output = false);
+
+// EXPERIMENTAL
+// modify messages to limit input token to improve program processing time
+void modify_messages(nlohmann::json& messages);

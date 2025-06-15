@@ -1,15 +1,12 @@
-cmake_minimum_required(VERSION 3.12)
-project(speech_tts)
-
-set(CMAKE_CXX_STANDARD 17)
-
 find_package(CURL REQUIRED)
 find_package(nlohmann_json REQUIRED)
 
-add_executable(speech speech.cpp)
+add_library(tts STATIC speech.cpp)
 
-target_link_libraries(speech
-    PRIVATE
+target_include_directories(tts PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(tts
+    PUBLIC
     CURL::libcurl
     nlohmann_json::nlohmann_json
 )
