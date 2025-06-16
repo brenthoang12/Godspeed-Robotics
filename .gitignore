@@ -5,7 +5,7 @@
 
 *.mp3
 *.wav
+*.bin
 
 build/
-/eye_mechanism/models/*
-/eye_mechanism/json_output/
+/eye_mechanism/json_output
