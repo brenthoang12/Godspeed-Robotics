@@ -167,7 +167,7 @@ int main(int argc, char ** argv) {
             printf("\n[Waiting for OpenAI response...]\n");
             fflush(stdout);
             messages.push_back({{"role", "user"}, {"content", full_text}});
-            std::string json_response = send_prompt(api_key, messages);
+            std::string json_respo  nse = send_prompt(api_key, messages);
             std::string content = print_response(json_response, messages);
             tts_openai(api_key, content);
             if (limit_messages) {

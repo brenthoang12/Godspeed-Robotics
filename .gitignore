@@ -2,6 +2,7 @@
 .vscode
 .env
 .DS_Store
+.mp3
 
 build/
 eye_mechanism/models/*
