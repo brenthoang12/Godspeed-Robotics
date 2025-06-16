@@ -5,4 +5,5 @@
 .mp3
 
 build/
-eye_mechanism/models/*
+/eye_mechanism/models/*
+/eye_mechanism/json_output/
