@@ -1,3 +1,5 @@
+// TODO: increase vad_thold for more silence tolerant
+
 #include "response_generator.h"
 #include "speech.h"
 #include "common-sdl.h"
@@ -189,3 +191,5 @@ int main(int argc, char ** argv) {
     printf("Bye bye.\n");
     return 0;
 }
+
+// ./build/voice_assistant
