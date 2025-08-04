@@ -166,10 +166,12 @@ int main(int argc, char ** argv) {
         }
           
         if (!full_text.empty()) {
+
+            // TODO: need to listen to user voice in case the transcription is incorrect / the use didn't mean what they said 
             printf("\n[Waiting for OpenAI response...]\n");
             fflush(stdout);
             messages.push_back({{"role", "user"}, {"content", full_text}});
-            std::string json_respo  nse = send_prompt(api_key, messages);
+            std::string json_response = send_prompt(api_key, messages);
             std::string content = print_response(json_response, messages);
             tts_openai(api_key, content);
             if (limit_messages) {
@@ -188,8 +190,11 @@ int main(int argc, char ** argv) {
 
     audio.pause();
     whisper_free(ctx);
-    printf("Bye bye.\n");
+    printf("Bye bye.\n");   
     return 0;
 }
 
+
+// cmake -B build
+// cmake --build build
 // ./build/voice_assistant

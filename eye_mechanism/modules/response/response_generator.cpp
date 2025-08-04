@@ -146,7 +146,7 @@ void modify_messages(json& messages) {
     // Keep the last 10 entries from the conversation (excluding system prompt)
     int start = std::max(1, static_cast<int>(messages.size()) - 10);
     for (int i = start; i < messages.size(); ++i) {
-        modified.push_back(messages[i]);
+           modified.push_back(messages[i]);
     }
 
     messages = modified;      

@@ -54,3 +54,8 @@ void tts_openai(const std::string& api_key, const std::string& text, const std::
     std::string play_cmd = "afplay " + audio_filename;
     system(play_cmd.c_str());
 }
+
+
+void tts_interrupt() {
+    return;
+}
